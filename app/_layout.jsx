@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, {useEffect} from 'react'
-import {SplashScreen, Slot, Stack } from 'expo-router'
-import { useFonts } from 'expo-font';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { SplashScreen, Slot, Stack } from "expo-router";
+import { useFonts } from "expo-font";
 // Import your global CSS file
 import "../global.css";
-import 'react-native-url-polyfill/auto'
+import "react-native-url-polyfill/auto";
+import GlobalContextProvider from "../context/GlobalContext";
 
-SplashScreen.preventAutoHideAsync() 
+SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -20,29 +21,29 @@ const RootLayout = () => {
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
-  
+
   useEffect(() => {
     if (error) throw error;
-  
+
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, error]);
-  
+
   if (!fontsLoaded && !error) {
     return null;
   }
   return (
-   <Stack>
-    <Stack.Screen name='index' options={{ headerShown: false}}/>
-    <Stack.Screen name='(auth)' options={{ headerShown: false}}/>
-    <Stack.Screen name='(tabs)' options={{ headerShown: false}}/>
-   </Stack>
+    <GlobalContextProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </GlobalContextProvider>
+  );
+};
 
+export default RootLayout;
 
-  )
-}
-
-export default RootLayout
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
