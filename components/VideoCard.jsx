@@ -3,6 +3,7 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import { icons } from "../constants";
+import { Video, ResizeMode } from "expo-av";
 
 const VideoCard = ({ videoItem }) => {
   const { title, thumbnail, video, creator} = videoItem
@@ -43,24 +44,35 @@ const VideoCard = ({ videoItem }) => {
       </View>
 
       {play ? (
-        <Text className="text-xl">Playing....</Text>
-        // <Video
-        //   source={{ uri: video }}
-        //   className="w-full h-60 rounded-xl mt-3"
-        //   resizeMode={ResizeMode.CONTAIN}
-        //   useNativeControls
-        //   shouldPlay
-        //   onPlaybackStatusUpdate={(status) => {
-        //     if (status.didJustFinish) {
-        //       setPlay(false);
-        //     }
-        //   }}
-        // />
+        // <Text className="text-xl">Playing....</Text>
+        <Video
+          source={{ uri: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" }}
+          className="w-full h-60 rounded-xl mt-3 border-red-200"
+          style={{ width: '100%', height: 300, marginTop: 10, borderRadius: 20}}
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          shouldPlay
+          onPlaybackStatusUpdate={(status) => {
+            if (status.didJustFinish) {
+              setPlay(false);
+            }
+          }}
+        />
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setPlay(true)}
-          className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
+          style={{
+            width: '100%', // Tailwind 'w-full' -> full width
+            height: 240, // Tailwind 'h-60' -> 60 * 4 = 240
+            borderRadius: 16, // Tailwind 'rounded-xl' -> 16px border radius
+            marginTop: 12, // Tailwind 'mt-3' -> 3 * 4 = 12
+            position: 'relative', // Tailwind 'relative'
+            justifyContent: 'center', // Tailwind 'justify-center'
+            alignItems: 'center', // Tailwind 'items-center'
+            display: 'flex', // Tailwind 'flex' (explicit for consistency)
+          }}
+          // className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
         >
           <Image
             source={{ uri: thumbnail }}
